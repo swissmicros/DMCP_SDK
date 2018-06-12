@@ -1,0 +1,45 @@
+
+== Prerequisites
+
+ARM toolchain + make
+
+Basic shell utilities:
+  bash, dd, sed, tac, printf, find, etc.
+
+Some usually available aux utilities (could
+require separate installation):
+ crc32, sha1sum
+
+
+
+== Build
+
+Add ARM toolchain and bin/ directory path to PATH.
+
+Run make to build the program.
+
+Generated program 
+  build/TESTPGM.pgm
+
+Contents of QSPI
+  build/TESTPGM_qspi.bin
+
+
+
+== Customization
+
+=== Program name
+
+To change program name edit following two places:
+
+----
+Makefile:4:TARGET = TESTPGM
+src/main.h:4:#define PROGRAM_NAME    "TESTPGM"
+----
+
+=== Makefile
+
+It should generally enough to add your source files and libraries
+to Makefile under "# Custom section".
+
+
