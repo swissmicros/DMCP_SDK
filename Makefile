@@ -17,6 +17,9 @@ endif
 # Build path
 BUILD_DIR = build
 
+# BIN tools path
+BIN_DIR = bin
+
 ######################################
 # System sources
 ######################################
@@ -138,7 +141,7 @@ $(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) Makefile
 	$(OBJCOPY) --remove-section .qspi -O binary  $@  $(BUILD_DIR)/$(TARGET)_flash.bin
 	$(OBJCOPY) --only-section   .qspi -O ihex    $@  $(BUILD_DIR)/$(TARGET)_qspi.hex
 	$(OBJCOPY) --only-section   .qspi -O binary  $@  $(BUILD_DIR)/$(TARGET)_qspi.bin
-	check_qspi_crc $(TARGET) src/qspi_crc.h || ( $(MAKE) clean && false )
+	$(BIN_DIR)/check_qspi_crc $(TARGET) src/qspi_crc.h || ( $(MAKE) clean && false )
 	add_pgm_chsum build/$(TARGET)_flash.bin build/$(TARGET).pgm
 	$(SIZE) $@
 
