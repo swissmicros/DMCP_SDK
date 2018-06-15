@@ -3,6 +3,10 @@
 
 ARM toolchain + make
 
+GNU ARM toolchain can be downloaded from
+  https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads.
+We are currently using Version 7-2017-q4-major Linux 64-bit.
+
 Basic shell utilities:
   bash, dd, sed, tac, printf, find, etc.
 
