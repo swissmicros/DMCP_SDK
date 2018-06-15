@@ -17,8 +17,9 @@ endif
 # Build path
 BUILD_DIR = build
 
-# BIN tools path
-BIN_DIR = bin
+# Path to aux build scripts (including trailing /)
+# Leave empty for scripts in PATH
+BIN_DIR = bin/
 
 ######################################
 # System sources
@@ -141,8 +142,8 @@ $(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) Makefile
 	$(OBJCOPY) --remove-section .qspi -O binary  $@  $(BUILD_DIR)/$(TARGET)_flash.bin
 	$(OBJCOPY) --only-section   .qspi -O ihex    $@  $(BUILD_DIR)/$(TARGET)_qspi.hex
 	$(OBJCOPY) --only-section   .qspi -O binary  $@  $(BUILD_DIR)/$(TARGET)_qspi.bin
-	$(BIN_DIR)/check_qspi_crc $(TARGET) src/qspi_crc.h || ( $(MAKE) clean && false )
-	$(BIN_DIR)/add_pgm_chsum build/$(TARGET)_flash.bin build/$(TARGET).pgm
+	$(BIN_DIR)check_qspi_crc $(TARGET) src/qspi_crc.h || ( $(MAKE) clean && false )
+	$(BIN_DIR)add_pgm_chsum build/$(TARGET)_flash.bin build/$(TARGET).pgm
 	$(SIZE) $@
 
 $(BUILD_DIR)/%.hex: $(BUILD_DIR)/%.elf | $(BUILD_DIR)
