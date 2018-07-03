@@ -30,6 +30,15 @@
   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
   POSSIBILITY OF SUCH DAMAGE.
 
+
+  The SDK and related material is released as “NOMAS”  (NOt MAnufacturer Supported).
+
+  1. Info is released to assist customers using, exploring and extending the product
+  2. Do NOT contact the manufacturer with questions, seeking support, etc. regarding
+     NOMAS material as no support is implied or committed-to by the Manufacturer
+  3. The Manufacturer may reply and/or update materials if and when needed solely at
+     their discretion
+
 */
 #ifndef __SYS_DMCP_H__
 #define __SYS_DMCP_H__
@@ -224,8 +233,6 @@ int lcd_for_calc(int what);
 
 // == Menu keys
 
-#define LCD_HEADER_LINES 24
-#define LCD_ANN_LINES    16
 #define LCD_MENU_LINES   32
 
 #define MENU_KEY_LABEL_LEN    12
@@ -336,11 +343,11 @@ typedef struct {
 
 // ----------------------------------
 
-#define PLATFORM_VERSION "3.7"
+#define PLATFORM_VERSION "3.8"
 
 // System interface version
 #define PLATFORM_IFC_CNR   3
-#define PLATFORM_IFC_VER   7
+#define PLATFORM_IFC_VER   8
 
 // STATIC_ASSERT ...
 #define ASSERT_CONCAT_(a, b) a##b
@@ -828,6 +835,7 @@ int sys_last_key();
 // ----------------------------------
 
 void run_help();
+void run_help_file(const char * help_file);
 
 // ----------------------------------
 
