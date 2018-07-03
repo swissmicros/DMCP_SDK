@@ -7,4 +7,20 @@
 
 1. The Manufacturer may reply and/or update materials if and when needed solely at their discretion
 
-### This repo contains the sources for a simple 'Hello World!' demo program for the DM Calculator Platform (DMCP)
+### This repo contains the sources for basic SDK for the DM Calculator Platform (DMCP) along with the simple 'Hello World!' demo project
+
+DMCP SDK sources are in the dmpc/ directory, if you want to upgrade your own program to current
+DMCP interface version you should copy the dmcp/ directory to your project.
+
+README file contains basic instructions how to prepare your own building environment as well as the
+instructions how to turn this basic SDK project to your own one.
+
+You can look at SDKdemo project (simple scientific RPN calculator) for more advanced project with
+keyboard handling, more sophisticated LCD printing, power management, build with Intel® Decimal
+Floating-Point Math Library, user defined menus and more.
+
+For ultimate project which uses other aspect of the DMCP system (like system timers, bitmap printing
+to LCD or printing to IR printer) look at sources of the DM42PGM project.
+
+At this time the only source of information about the use of DMCP system interface is based on
+the source code of DMCP programs.
