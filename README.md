@@ -1,13 +1,9 @@
 # DMCP SDK
-## The SDK and related material is released as “NOMAS”  (NOt MAnufacturer Supported). 
 
-1. Info is released to assist customers using, exploring and extending the product
+## This repo contains the sources for basic SDK for the DM Calculator Platform (DMCP) along with the simple 'Hello World!' demo project
 
-1. Do NOT contact the manufacturer with questions, seeking support, etc. regarding NOMAS material as no support is implied or committed-to by the Manufacturer
+- There is DMCP interface doc in progress see [DMCP IFC doc](http://www.swissmicros.com/dm42/doc/DMCP-ifc-html/).
 
-1. The Manufacturer may reply and/or update materials if and when needed solely at their discretion
-
-### This repo contains the sources for basic SDK for the DM Calculator Platform (DMCP) along with the simple 'Hello World!' demo project
 
 DMCP SDK sources are in the dmpc/ directory, if you want to upgrade your own program to current
 DMCP interface version you should copy the dmcp/ directory to your project.
@@ -24,3 +20,12 @@ to LCD or printing to IR printer) look at sources of the DM42PGM project.
 
 At this time the only source of information about the use of DMCP system interface is based on
 the source code of DMCP programs.
+
+## The SDK and related material is released as “NOMAS”  (NOt MAnufacturer Supported). 
+
+1. Info is released to assist customers using, exploring and extending the product
+
+1. Do NOT contact the manufacturer with questions, seeking support, etc. regarding NOMAS material as no support is implied or committed-to by the Manufacturer
+
+1. The Manufacturer may reply and/or update materials if and when needed solely at their discretion
+
