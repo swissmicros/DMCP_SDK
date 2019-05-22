@@ -2,7 +2,7 @@
 
 BSD 3-Clause License
 
-Copyright (c) 2018, SwissMicros
+Copyright (c) 2015-2019, SwissMicros
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -151,12 +151,12 @@ typedef struct {
 typedef struct {
   line_font_t const * f; // Current font
   int16_t x, y;      // Current x,y position
-  int16_t ln_offs;   // Line offeset (when displaying by line numbers)
-  int16_t y_top_grd; // Don'w overwrite anything above this line
+  int16_t ln_offs;   // Line offset (when displaying by line numbers)
+  int16_t y_top_grd; // Don't overwrite anything above this line
   int8_t  ya;     // Lines to fill above the font
   int8_t  yb;     // Lines to fill below the font
   int8_t  xspc;   // Space between chars
-  int8_t  xoffs;  // X offst for first char on line
+  int8_t  xoffs;  // X offset for first char on line
 
   uint8_t fixed;  // Draw in fixed width
   uint8_t inv;    // Draw inverted
@@ -178,19 +178,26 @@ int lcd_fontWidth(disp_stat_t * ds);
 
 // Font display functions
 void lcd_writeText(disp_stat_t * ds, const char* text);
+// Note that 'text' has to be in RAM
+void lcd_textToBox(disp_stat_t * ds, int x, int width, char *text, int from_right, int align_right);
 
 // Width calculation functions
 int lcd_textWidth(disp_stat_t * ds, const char* text);
 int lcd_charWidth(disp_stat_t * ds, int c);
 
 // Get just text which fits in expected_width
+// Returns index of char which breaks the space limit
+// Optional plen variable can be supplied to get text width up to index limit.
 int lcd_textToWidth(disp_stat_t * ds, const char* text, int expected_width, int * plen);
+// ... alternative version to upper function which takes text from the end
+// returns -1 if whole text fits into 'expected_width'
+int lcd_textToWidthR(disp_stat_t * ds, const char* text, int expected_width, int * plen);
 
-// Just advance ds->x don't print anythig
+// Just advance ds->x don't print anything
 void lcd_writeTextWidth(disp_stat_t * ds, const char* text);
 
-// Get text which fits in expected width without breaking words
-// - word could be broken in middle only when is placed single long word on line 
+// Get text which fits in expected width *without breaking words*
+// - word could be broken in the middle only when is placed single long word on line 
 int lcd_textForWidth(disp_stat_t * ds, const char* text, int expected_width, int * plen);
 
 
@@ -345,11 +352,11 @@ typedef struct {
 
 // ----------------------------------
 
-#define PLATFORM_VERSION "3.10"
+#define PLATFORM_VERSION "3.13"
 
 // System interface version
 #define PLATFORM_IFC_CNR   3
-#define PLATFORM_IFC_VER   9
+#define PLATFORM_IFC_VER  10
 
 // STATIC_ASSERT ...
 #define ASSERT_CONCAT_(a, b) a##b
@@ -431,8 +438,7 @@ int usb_powered();
 
 char * aux_buf_ptr();
 void * write_buf_ptr();
-
-
+int write_buf_size();
 
 // Program info structure
 #define PROG_INFO_MAGIC 0xd377C0DE
@@ -549,6 +555,8 @@ extern const smenu_t   MID_BASE_SETUP; // System setup menu
 #define MI_PGM_LOAD        221
 
 #define MI_RUN_DMCP        222
+
+#define MI_OFF_MODE        223
 // --------------------------------
 
 
@@ -717,25 +725,6 @@ int file_selection_screen(const char * title, const char * base_dir, const char 
 #define STAT_HW                (STAT_HW_BEEP | STAT_HW_USB | STAT_HW_IR)
 
 
-// == File Item list
-
-#define pgm_fn_len 31
-
-typedef struct {
-  char fn[pgm_fn_len+1]; // Part of filename that fits on screen
-  char f8[16];           // 8.3 filename
-} file_item_t;
-
-// Enumerates files in directory
-// Parameter fis is filled with file names - fis could be NULL to just get the number of files
-// Returns >=0 number of the files in directory
-//          <0 fail
-int read_file_items(const char * dir_name, const char * filt, file_item_t * fis);
-
-void sort_file_items(file_item_t *fis, int fcnt);
-
-
-
 // Screenshots
 #define SCR_DIR        "/SCREENS"
 
@@ -801,6 +790,9 @@ int check_create_dir(const char * dir);
 void set_fat_label(const char * label);
 
 int file_exists(const char * fn);
+
+// Returns -1 if file doesn't exist
+int file_size(const char * fn);
 
 int sys_disk_ok();
 int sys_disk_write_enable(int val);

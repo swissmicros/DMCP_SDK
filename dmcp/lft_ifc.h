@@ -2,7 +2,7 @@
 
 BSD 3-Clause License
 
-Copyright (c) 2018, SwissMicros
+Copyright (c) 2015-2019, SwissMicros
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -196,3 +196,5 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define update_bmp_file_header (*(typeof(update_bmp_file_header)*)(LIBRARY_FN_BASE+600))
 #define make_date_filename (*(typeof(make_date_filename)*)(LIBRARY_FN_BASE+604))
 #define reverse_byte (*(typeof(reverse_byte)*)(LIBRARY_FN_BASE+608))
+#define f_rename (*(typeof(f_rename)*)(LIBRARY_FN_BASE+612))
+#define file_size (*(typeof(file_size)*)(LIBRARY_FN_BASE+616))
