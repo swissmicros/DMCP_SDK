@@ -65,7 +65,7 @@ typedef struct {
 
   void_fn_t * after_fat_format;
 
-  get_flag_fn_t * is_flag_dmy;
+  get_flag_fn_t * get_flag_dmy;
   set_flag_fn_t * set_flag_dmy;
   get_flag_fn_t * is_flag_clk24;
   set_flag_fn_t * set_flag_clk24;
@@ -75,6 +75,9 @@ typedef struct {
   disp_stat_t * pds_t20;
   disp_stat_t * pds_t24;
   disp_stat_t * pds_fReg;
+
+  uint32_t * timer2_counter;
+  uint32_t * timer3_counter;
 
 } sys_sdb_t;
 
@@ -89,12 +92,14 @@ typedef struct {
 
 #define after_fat_format  (sdb.after_fat_format)
 
-#define is_flag_dmy     (sdb.is_flag_dmy)
+#define get_flag_dmy    (sdb.get_flag_dmy)
 #define set_flag_dmy    (sdb.set_flag_dmy)
 #define is_flag_clk24   (sdb.is_flag_clk24)
 #define set_flag_clk24  (sdb.set_flag_clk24)
 #define is_beep_mute    (sdb.is_beep_mute)
 #define set_beep_mute   (sdb.set_beep_mute)
+#define timer2_counter  (sdb.timer2_counter)
+#define timer3_counter  (sdb.timer3_counter)
 
 // === IFC END ===
 
