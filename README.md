@@ -2,8 +2,8 @@
 
 ## This repo contains the sources for basic SDK for the DM Calculator Platform (DMCP) along with the simple 'Hello World!' demo project
 
-- There is DMCP interface doc in progress see [DMCP IFC doc](http://www.swissmicros.com/dm42/doc/DMCP-ifc-html/) (or
-you can download HTML zip file from [doc directory](http://www.swissmicros.com/dm42/doc/)).
+- There is DMCP interface doc in progress see [DMCP IFC doc](http://www.swissmicros.com/dmcp/doc/DMCP-ifc-html/) (or
+you can download HTML zip file from [doc directory](http://www.swissmicros.com/dmcp/doc/)).
 
 
 DMCP SDK sources are in the dmpc/ directory, if you want to upgrade your own program to current
