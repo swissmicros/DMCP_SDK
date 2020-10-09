@@ -79,6 +79,8 @@ typedef struct {
   uint32_t * timer2_counter;
   uint32_t * timer3_counter;
 
+  void_fn_t * msc_end_cb;
+
 } sys_sdb_t;
 
 
@@ -100,6 +102,8 @@ typedef struct {
 #define set_beep_mute   (sdb.set_beep_mute)
 #define timer2_counter  (sdb.timer2_counter)
 #define timer3_counter  (sdb.timer3_counter)
+
+#define msc_end_cb      (sdb.msc_end_cb)
 
 // === IFC END ===
 
