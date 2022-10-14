@@ -1,0 +1,197 @@
+#!/usr/bin/python3
+
+import os,sys,re
+
+sysmap = [
+  33, 34, 35, 36, 37,
+  28, 29, 30, 31, 32,
+  23, 24, 25, 26, 27,
+  18, 19, 20, 21, 22,
+  13, 14, 15, 16, 17,
+   8,  9, 10, 11, 12,
+   2,  3,  4,  5,  6,
+  39, 40, 41, 42, 43,
+  44, 13,  7,  1, 38 ]
+
+key_ix_map = [
+  44, 35, 36, 37, 38, 39, 43, 30, 31, 32, 33, 34, 42, 25, 26, 27, 28, 29, 20, 21, 22, 23, 24, 15, 16, 17, 18, 19, 10, 11, 12, 13, 14, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4
+]
+
+key_defs = ["None",
+	"KEY_SIGMA",
+	"KEY_INV",
+	"KEY_SQRT",
+	"KEY_LOG",
+	"KEY_LN",
+	"KEY_XEQ",
+	"KEY_STO",
+	"KEY_RCL",
+	"KEY_RDN",
+	"KEY_SIN",
+	"KEY_COS",
+	"KEY_TAN",
+	"KEY_ENTER",
+	"KEY_SWAP",
+	"KEY_CHS",
+	"KEY_E",
+	"KEY_BSP",
+	"KEY_UP",
+	"KEY_7",
+	"KEY_8",
+	"KEY_9",
+	"KEY_DIV",
+	"KEY_DOWN",
+	"KEY_4",
+	"KEY_5",
+	"KEY_6",
+	"KEY_MUL",
+	"KEY_SHIFT",
+	"KEY_1",
+	"KEY_2",
+	"KEY_3",
+	"KEY_SUB",
+	"KEY_EXIT",
+	"KEY_0",
+	"KEY_DOT",
+	"KEY_RUN",
+	"KEY_ADD"
+]
+
+
+key_lbls = ["None",
+	"Sum+",
+	"1/x",
+	"SQRT",
+	"LOG",
+	"LN",
+	"XEQ",
+	"STO",
+	"RCL",
+	"RDN",
+	"SIN",
+	"COS",
+	"TAN",
+	"ENTER",
+	"x<>y",
+	"CHS",
+	"E",
+	"<--",
+	"UP",
+	"7",
+	"8",
+	"9",
+	"DIV",
+	"DOWN",
+	"4",
+	"5",
+	"6",
+	"MUL",
+	"SHIFT",
+	"1",
+	"2",
+	"3",
+	"SUB",
+	"EXIT",
+	"0",
+	"DOT",
+	"RUN",
+	"ADD",
+	"F1",
+	"F2",
+	"F3",
+	"F4",
+	"F5",
+	"F6",
+]
+
+
+def key_but(lbl,width=5):
+	W = 5
+	w2 = width//2
+	l = len(lbl)
+	l2 = l//2
+	s = " "*W + lbl + " "*W
+	x=W-(w2-l2)
+	#print("[{}]".format(s[x:x+width]))
+	return s[x:x+width]
+
+
+def gen_ix_map():
+	x = 38
+	for qq in range(43):
+		if x == 44: x = 1
+		y = sysmap.index(x)
+		#print("{}-{}, ".format(x,y))
+		print("{}, ".format(y),end='')
+		x += 1
+
+rowends=[43,6,12,17,22,27,32,37]
+
+def print_layout(m):
+	print("")
+	row=1
+	ln,lm = "",""
+	x = 37 # Scan code
+	for ix in key_ix_map:
+		x += 1
+		if x == 44: x = 1
+
+		kc = m[ix]
+		bb = 1 if 17 < x < 38 else 0
+		bw = bb + (5 if x!=13 else 11)
+		lbl = key_lbls[kc]
+
+		ln += "|{}".format(key_but(lbl,bw))
+		cod = "{:2}:{:2}".format(x,kc)
+		lm += "|{}".format(key_but(cod,bw))
+		if x in rowends:
+			# ln
+			el = " |" if bb else "|"
+			ln += el
+			lm += el
+			# lnr
+			lnr = " {}: ".format(row)
+			lnf = " "*len(lnr)
+			# ln2
+			ln2 = re.sub('[^|]','-',ln)
+			ln2 = re.sub('[|]','+',ln2)
+
+			if row==1:
+				print(lnf+ln2)
+			print(lnr+ln)
+			print(lnf+lm)
+			print(lnf+ln2)
+		
+			ln,lm = "",""
+			row += 1
+	print("")
+
+
+
+if len(sys.argv) < 2:
+	print("""
+Usage: {} <keymap.txt>
+
+""".format(sys.argv[0].split('/')[-1]))
+	sys.exit(1)
+
+fname = sys.argv[1]
+with open(fname) as f:
+	lns = f.readlines()
+
+keymap = eval("[" + "".join(lns) + "]")
+#print(keymap)
+if len(keymap) != 45:
+	print("Unexpected len of keymap {} - exiting".format(len(keymap)))
+	sys.exit(1)
+
+
+# Button label test
+#for lbl in key_lbls: print("|{}|".format(key_but(lbl)))
+
+#gen_ix_map()
+
+#print_layout(sysmap)
+
+print_layout(keymap)
+

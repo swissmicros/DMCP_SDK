@@ -1,0 +1,102 @@
+#!/bin/bash
+
+kbdnam=$1
+maptxt=$2
+
+
+
+if [ -z "$2" ]; then
+  cat << OI
+Usage: mk_keymap <name> <keymap.txt>
+OI
+  exit 1
+fi
+
+if [ ! -f $maptxt ]; then
+  echo "ERROR: Cannot find keymap file '$maptxt'."
+  exit 1
+fi
+
+# =============================================
+#  Functions
+# =============================================
+
+# $1 number
+# $2 fill char
+makefill() {
+  local n z
+  n=$1; z="$2"
+  while [ ${#z} -lt $n ]; do
+    z="$z$2"
+  done
+  printf "${z:0:$n}"
+}
+
+toint() {
+  local x
+  x=`printf "$1" |
+    sed -e 's|\(..\)|\1@|g' | tr '@' '\012' | tac | tr -d '\012' |
+    sed -e 's|\(..\)|@\1|g' | sed -e 's|@|\\\x|g'`
+  printf "$x"
+}
+
+toint8() {
+  local x
+  x=`printf "$1" | sed -e 's|\(..\)|@\1|g' | sed -e 's|@|\\\x|g'`
+  printf "$x"
+}
+
+# $1 string
+# $2 number of bytes including final \0
+zstr() {
+  local x n
+  let n=$2-1
+  x="${1}`makefill $2 @`" # Add some filling
+  x=`sed -e 's|@|\\\0|g' <<< "${x:0:$n}@"`
+  printf "$x"
+}
+
+gethex() {
+  for a in "$@"; do
+    printf "%02x" $a
+  done
+}
+
+
+
+getkeymapcodes() {
+  cat $maptxt | tr ',\012' ' '
+}
+
+check_keymapcodes() {
+  scod=`echo "$codes" | tr ' ' '\012' | sort -n | tr '\012' ' '`
+  hh=`gethex $scod`
+  #echo "hh: $hh"
+  if [ "$hh" != "$allcodes" ]; then
+    echo "Bad code list in $maptxt"
+    exit 1
+  fi
+}
+
+
+
+# =============================================
+#  MAIN
+# =============================================
+
+magic=D377D1BD
+kmap=keymap.bin
+
+allcodes=0102030405060708090a0b0c0d0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c
+codes=`getkeymapcodes`
+
+check_keymapcodes
+
+hex=`gethex $codes`
+#echo "$hex"
+
+toint  "$magic"      >  $kmap
+zstr   "$kbdnam" 16  >> $kmap
+toint8 "$hex"        >> $kmap
+
+
