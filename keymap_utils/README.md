@@ -70,7 +70,7 @@ To configure program to expect particular keymap add:
 
 `#define PROGRAM_KEYMAP_ID 0x3138585A`
 
-into `src/main.h`, where the constant correspons to first four bytes of `KEYID`.
+into `src/main.h`, where the constant corresponds to first four bytes of `KEYID`.
 
 
 Special RESET key combinations
@@ -99,7 +99,7 @@ Prepare combined file:
 |  DMCP fw                 |
 |  padd to 0x50000         |
 |  PGM bin                 |
-|  padd to multile of 2kB  |
+|  padd to multiple of 2kB  |
 
 
 Replace last 24 bytes with fw info:
