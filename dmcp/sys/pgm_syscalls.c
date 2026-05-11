@@ -61,6 +61,7 @@ void Program_Entry();
 #define PROGRAM_KEYMAP_ID 0xffffffff
 #endif
 
+__attribute__((used, externally_visible, section(".rodata.prog_info")))
 prog_info_t const prog_info = {
 	PROG_INFO_MAGIC,       // uint32_t pgm_magic;
 	0,                     // uint32_t pgm_size;
